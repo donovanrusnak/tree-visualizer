@@ -9,7 +9,8 @@ import javafx.scene.text.FontWeight;
 
 public class TreeNode {
 
-    private double data;
+    //node variables
+    private int data;
     private double xPos;
     private double yPos;
     private double childXDiff;
@@ -20,6 +21,7 @@ public class TreeNode {
     private Color nodeColor = Color.LIGHTGREY;
     private double lineWidth = 2;
 
+    //node constants
     private final Color lineColor = Color.BLACK;
     private final int diameter = 30;
     private final Color outlineColor = Color.BLACK;
@@ -27,7 +29,8 @@ public class TreeNode {
     private final Font font = Font.font("Tahoma", FontWeight.BOLD, 15);
     private final FontMetrics fontMetrics = Toolkit.getToolkit().getFontLoader().getFontMetrics(font);
 
-    public TreeNode(double data, double xPos, double yPos, double childXDiff, TreeNode parent) {
+    //constructor
+    public TreeNode(int data, double xPos, double yPos, double childXDiff, TreeNode parent) {
         this.data = data;
         this.xPos = xPos;
         this.yPos = yPos;
@@ -37,6 +40,7 @@ public class TreeNode {
         this.rightChild = null;
     }
 
+    //draws node onto user interface
     public void draw(GraphicsContext gc){
         gc.setLineWidth(lineWidth);
         if(parent != null) {
@@ -49,11 +53,12 @@ public class TreeNode {
         gc.strokeOval(xPos, yPos, diameter, diameter);
         gc.setFont(font);
         gc.setFill(textColor);
-        double dataWidth = fontMetrics.computeStringWidth(Integer.toString((int) data));
+        double dataWidth = fontMetrics.computeStringWidth(Integer.toString(data));
         double dataHeight = fontMetrics.getAscent();
-        gc.fillText(Integer.toString((int) data), xPos + (diameter-dataWidth)/2, yPos + (5*diameter)/12 + dataHeight/2);
+        gc.fillText(Integer.toString(data), xPos + (diameter-dataWidth)/2, yPos + (5*diameter)/12 + dataHeight/2);
     }
 
+    //removes node from user interface
     public void erase(GraphicsContext gc){
         double upperLeftX, upperLeftY;
         double width, height;
@@ -71,17 +76,18 @@ public class TreeNode {
         gc.clearRect(upperLeftX, upperLeftY, width, height);
     }
 
+    //removes node and all its children from user interface
     public void eraseSubtree(GraphicsContext gc) {
         erase(gc);
         if(leftChild != null) leftChild.eraseSubtree(gc);
         if(rightChild != null) rightChild.eraseSubtree(gc);
     }
 
-    public double getData(){
+    public int getData(){
         return data;
     }
 
-    public void setData(double data){
+    public void setData(int data){
         this.data = data;
     }
 
